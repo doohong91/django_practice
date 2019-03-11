@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Article
+from .models import Article, Comment
 from IPython import embed
 
 # Create your views here.
@@ -10,7 +10,11 @@ def article_list(request):
 
 def article_detail(request, article_id):
     article = get_object_or_404(Article, id=article_id)
-    return render(request, 'board/detail.html', {'article': article})
+    comments = article.comment_set.all()
+    return render(request, 'board/detail.html', {
+        'article': article,
+        'comments': comments
+    })
 
 
 def create_article(request):
@@ -42,3 +46,20 @@ def delete_article(request, article_id):
         article = get_object_or_404(Article, id=article_id)
         article.delete()
         return redirect('board:article_list')
+
+
+def create_comment(request, article_id):
+    if request.method == 'POST':
+        comment = Comment()
+        comment.article = get_object_or_404(Article, id=article_id)
+        comment.content = request.POST.get('content')
+        comment.save()
+    return redirect('board:article_detail', article_id)
+
+
+def delete_comment(request, article_id, comment_id):
+    article = get_object_or_404(Article, id=article_id)
+    if request.method == 'POST':
+        comment = get_object_or_404(Comment, id=comment_id)
+        comment.delete()
+    return redirect('board:article_detail', article.id)

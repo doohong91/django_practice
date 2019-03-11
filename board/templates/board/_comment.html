@@ -1,0 +1,21 @@
+<h3>Comment</h3>
+
+<form action="{% url 'board:create_comment' article.id %}" method="post">
+{% csrf_token %}
+<div>
+    <label for="content"></label>
+    <input type="text" name="content" id="content" autofocus>
+</div>
+</form>
+
+{% if comments %}
+    <ul>
+        {% for comment in comments %}
+            <li>{{ comment.content }}</li>
+            <form action="{% url 'board:delete_article' article_id comment.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">삭제</button>
+            </form>
+        {% endfor %}
+    </ul>
+{% endif %}
