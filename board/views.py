@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Article
-
+from IPython import embed
 
 # Create your views here.
 def article_list(request):
@@ -13,21 +13,32 @@ def article_detail(request, article_id):
     return render(request, 'board/detail.html', {'article': article})
 
 
-def new_article(request):
-
-
-
 def create_article(request):
-    pass
-
-
-def edit_article(request, article_id):
-    pass
+    if request.method == 'GET':
+        return render(request, 'board/new.html')
+    else:
+        article = Article()
+        article.title = request.POST.get('title')
+        article.content = request.POST.get('content')
+        article.save()
+        return redirect('board:article_detail', article.id)
 
 
 def update_article(request, article_id):
-    pass
+    article = get_object_or_404(Article, id=article_id)
+    if request.method == 'GET':
+        return render(request, 'board/edit.html', {'article':article})
+    else:
+        article.title = request.POST.get('title')
+        article.content = request.POST.get('content')
+        article.save()
+        return redirect('board:article_detail', article_id)
 
 
 def delete_article(request, article_id):
-    pass
+    if request.method == 'GET':
+        return redirect('board:article_detail', article_id)
+    else:
+        article = get_object_or_404(Article, id=article_id)
+        article.delete()
+        return redirect('board:article_list')
