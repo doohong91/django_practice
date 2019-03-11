@@ -12,7 +12,9 @@
     <ul>
         {% for comment in comments %}
             <li>{{ comment.content }}</li>
-            <form action="{% url 'board:delete_article' article_id comment.id %}" method="post">
+            <form
+                    action="{% url 'board:delete_comment' article_id=article.id comment_id=comment.id %}"
+                    method="post">
             {% csrf_token %}
             <button type="submit">삭제</button>
             </form>
