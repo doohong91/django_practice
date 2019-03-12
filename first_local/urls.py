@@ -23,7 +23,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('board/', include('board.urls')),
-    path('posting/', include('posting.urls')),
+    path('sns/', include('sns.urls')),
 ]
 
 # Dev Only (개발 서버에서 media/ 파일들을 서빙 미지원)
