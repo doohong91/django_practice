@@ -16,7 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+# upload setting
+from django.conf.urls.static import static
+from django.conf import settings
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('board/', include('board.urls')),
+    path('posting/', include('posting.urls')),
 ]
+
+# Dev Only (개발 서버에서 media/ 파일들을 서빙 미지원)
+# DEBUG = False 이면, 자동으로 static(...) => return []
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
