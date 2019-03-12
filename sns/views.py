@@ -29,11 +29,11 @@ def create_posting(request):
 
 
 def create_comment(request, posting_id):
-    posting = get_object_or_404(Posting, posting_id)
+    posting = get_object_or_404(Posting, id=posting_id)
     if request.method == 'POST':
         comment = Comment()
         comment.posting = posting
         comment.content = request.POST.get('content')
         comment.save()
-    return redirect('sns:posting_detail', posting_id)
+    return redirect('sns:posting_detail', posting.id)
 
