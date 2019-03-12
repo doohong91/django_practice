@@ -1,4 +1,7 @@
 {% extends 'sns/base.html' %}
+{% block is_list %}
+    active
+{% endblock %}
 {% block body %}
     {% include 'sns/_forms.html' %}
     <hr>
@@ -19,7 +22,7 @@
 
                     </a>
                 <div class="card-body">
-                    <i>{{ posting.icon }}</i>
+                    <i class="{{ posting.icon }} fa-2x"></i>
                 </div>
                 </article>
             {% endfor %}

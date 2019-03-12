@@ -5,7 +5,7 @@ from imagekit.processors import ResizeToFit
 
 class Posting(models.Model):
     content = models.TextField(default='')
-    icon = models.CharField(max_length=20)
+    icon = models.CharField(max_length=20, default='fas fa-question')
 
     # upload URL(Uniform Resource Locator) => /media/posting/origin/20190312/
     # save as origin
