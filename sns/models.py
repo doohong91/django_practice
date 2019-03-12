@@ -1,11 +1,30 @@
 from django.db import models
-
+# imageKit
+from imagekit.models import ImageSpecField, ProcessedImageField
+from imagekit.processors import ResizeToFit
 
 class Posting(models.Model):
     content = models.TextField(default='')
     icon = models.CharField(max_length=20)
+
     # upload URL(Uniform Resource Locator) => /media/posting/origin/20190312/
-    image = models.ImageField(blank=True, upload_to='posting/origin/%Y%m%d')
+    # save as origin
+    # image = models.ImageField(blank=True, upload_to='posting/origin/%Y%m%d')
+
+    # resize image
+    image = ProcessedImageField(
+        upload_to='posting/resize/%Y%m%d',
+        processors=[ResizeToFit(width=960, upscale=False)],     # Resize image(maximum width = 960px)
+        format='JPEG'
+    )
+
+    # thumbnail
+    image_thumbnail = ImageSpecField(
+        source='image',
+        processors=[ResizeToFit(width=320, upscale=False)],     # Resize image(maximum width = 320px)
+        format='JPEG',
+        options={'quality': 60}                                 # Resize image(60% definition compare with origin)
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -22,3 +41,13 @@ class Posting(models.Model):
             print(f'    image_size: {self.image.width}px * {self.image.height}px: {round(self.image.size / 1024)}kb')
         print('==========================================')
         print()
+
+
+class Comment(models.Model):
+    posting = models.ForeignKey(Posting, on_delete=models.CASCADE)
+    content = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'<{self.posting.content[:10]}: {self.content[:20]}>'

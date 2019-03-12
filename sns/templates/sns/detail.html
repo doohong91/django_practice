@@ -1,0 +1,18 @@
+{% extends 'sns/base.html' %}
+{% block body %}
+    <div class="row mt-3">
+        <div class="col-12 col-md-6">
+            <div class="card">
+                <img src="{{ posting.image.url }}"
+                     alt="{{ posting.image }}"
+                     class="card-img-top image-fluid">
+                <div class="card-body">
+                    <i>{{ posting.icon }}</i>
+                    <hr>
+                    <p class="card-text">{{ posting.content }}</p>
+                </div>
+            </div>
+        </div>
+{#    TODO: Comment form & list #}
+    </div>
+{% endblock %}
