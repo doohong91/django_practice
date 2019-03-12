@@ -1,4 +1,4 @@
-# 가상환경 파일 dir
+﻿# 가상환경 파일 dir
 venv/
 # python auto generated cache
 __pycache__/
@@ -6,3 +6,5 @@ __pycache__/
 .idea/
 # Default Djanjo DB
 *.sqlite3
+# image/file
+media/
